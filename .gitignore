@@ -1,0 +1,46 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode user data
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Xcode build output
+DerivedData/
+build/
+Build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcarchive
+
+# Swift Package Manager local state
+.build/
+.swiftpm/
+
+# CocoaPods / Carthage local output, if added later
+Pods/
+Carthage/Build/
+
+# Fastlane generated files
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# Local environment and secrets
+.env
+.env.*
+*.p8
+*.p12
+*.mobileprovision
+*.provisionprofile
+
+# Firebase project config
+GoogleService-Info.plist
+
+# Logs
+*.log
