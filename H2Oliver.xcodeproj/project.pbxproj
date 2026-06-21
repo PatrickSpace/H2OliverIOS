@@ -6,20 +6,65 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6E9D432C2FE87F83002E5C48 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9D432B2FE87F83002E5C48 /* FirebaseAuth */; };
+		6E9D432E2FE87F83002E5C48 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9D432D2FE87F83002E5C48 /* FirebaseFirestore */; };
+		6E9D43332FE88733002E5C48 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 6E9D43322FE88733002E5C48 /* GoogleSignIn */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6E9D440A2FE8C100002E5C48 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6E9D430A2FE879DA002E5C48 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6E9D43112FE879DA002E5C48;
+			remoteInfo = H2Oliver;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		6E9D43122FE879DA002E5C48 /* H2Oliver.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = H2Oliver.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E9D44002FE8C100002E5C48 /* H2OliverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = H2OliverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6E9D43342FE8A0D0002E5C48 /* Exceptions for "H2Oliver" folder in "H2Oliver" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6E9D43112FE879DA002E5C48 /* H2Oliver */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6E9D43142FE879DA002E5C48 /* H2Oliver */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6E9D43342FE8A0D0002E5C48 /* Exceptions for "H2Oliver" folder in "H2Oliver" target */,
+			);
 			path = H2Oliver;
+			sourceTree = "<group>";
+		};
+		6E9D44012FE8C100002E5C48 /* H2OliverTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = H2OliverTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6E9D430F2FE879DA002E5C48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6E9D432C2FE87F83002E5C48 /* FirebaseAuth in Frameworks */,
+				6E9D432E2FE87F83002E5C48 /* FirebaseFirestore in Frameworks */,
+				6E9D43332FE88733002E5C48 /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E9D44042FE8C100002E5C48 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				6E9D43142FE879DA002E5C48 /* H2Oliver */,
+				6E9D44012FE8C100002E5C48 /* H2OliverTests */,
 				6E9D43132FE879DA002E5C48 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				6E9D43122FE879DA002E5C48 /* H2Oliver.app */,
+				6E9D44002FE8C100002E5C48 /* H2OliverTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,10 +112,36 @@
 			);
 			name = H2Oliver;
 			packageProductDependencies = (
+				6E9D432B2FE87F83002E5C48 /* FirebaseAuth */,
+				6E9D432D2FE87F83002E5C48 /* FirebaseFirestore */,
+				6E9D43322FE88733002E5C48 /* GoogleSignIn */,
 			);
 			productName = H2Oliver;
 			productReference = 6E9D43122FE879DA002E5C48 /* H2Oliver.app */;
 			productType = "com.apple.product-type.application";
+		};
+		6E9D44022FE8C100002E5C48 /* H2OliverTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6E9D44062FE8C100002E5C48 /* Build configuration list for PBXNativeTarget "H2OliverTests" */;
+			buildPhases = (
+				6E9D44032FE8C100002E5C48 /* Sources */,
+				6E9D44042FE8C100002E5C48 /* Frameworks */,
+				6E9D44052FE8C100002E5C48 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6E9D44092FE8C100002E5C48 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				6E9D44012FE8C100002E5C48 /* H2OliverTests */,
+			);
+			name = H2OliverTests;
+			packageProductDependencies = (
+			);
+			productName = H2OliverTests;
+			productReference = 6E9D44002FE8C100002E5C48 /* H2OliverTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -83,6 +156,10 @@
 					6E9D43112FE879DA002E5C48 = {
 						CreatedOnToolsVersion = 26.5;
 					};
+					6E9D44022FE8C100002E5C48 = {
+						CreatedOnToolsVersion = 26.5;
+						TestTargetID = 6E9D43112FE879DA002E5C48;
+					};
 				};
 			};
 			buildConfigurationList = 6E9D430D2FE879DA002E5C48 /* Build configuration list for PBXProject "H2Oliver" */;
@@ -94,18 +171,30 @@
 			);
 			mainGroup = 6E9D43092FE879DA002E5C48;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				6E9D432A2FE87F83002E5C48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6E9D43312FE88733002E5C48 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6E9D43132FE879DA002E5C48 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				6E9D43112FE879DA002E5C48 /* H2Oliver */,
+				6E9D44022FE8C100002E5C48 /* H2OliverTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6E9D43102FE879DA002E5C48 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E9D44052FE8C100002E5C48 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +211,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6E9D44032FE8C100002E5C48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6E9D44092FE8C100002E5C48 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6E9D43112FE879DA002E5C48 /* H2Oliver */;
+			targetProxy = 6E9D440A2FE8C100002E5C48 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6E9D431B2FE879DC002E5C48 /* Debug */ = {
@@ -253,7 +357,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = H2Oliver/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = H2Oliver;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -264,24 +371,24 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MACOSX_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = boxell.H2Oliver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 17.0;
 			};
 			name = Debug;
 		};
@@ -297,7 +404,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = H2Oliver/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = H2Oliver;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -308,24 +418,74 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MACOSX_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = boxell.H2Oliver;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 26.5;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 17.0;
+			};
+			name = Release;
+		};
+		6E9D44072FE8C100002E5C48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R4DALBQGQZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = boxell.H2OliverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/H2Oliver.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/H2Oliver";
+			};
+			name = Debug;
+		};
+		6E9D44082FE8C100002E5C48 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R4DALBQGQZ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = boxell.H2OliverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/H2Oliver.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/H2Oliver";
 			};
 			name = Release;
 		};
@@ -350,7 +510,53 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		6E9D44062FE8C100002E5C48 /* Build configuration list for PBXNativeTarget "H2OliverTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6E9D44072FE8C100002E5C48 /* Debug */,
+				6E9D44082FE8C100002E5C48 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6E9D432A2FE87F83002E5C48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.15.0;
+			};
+		};
+		6E9D43312FE88733002E5C48 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6E9D432B2FE87F83002E5C48 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E9D432A2FE87F83002E5C48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		6E9D432D2FE87F83002E5C48 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E9D432A2FE87F83002E5C48 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		6E9D43322FE88733002E5C48 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E9D43312FE88733002E5C48 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6E9D430A2FE879DA002E5C48 /* Project object */;
 }
