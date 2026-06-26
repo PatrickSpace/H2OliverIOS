@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import UserNotifications
 
 struct ContentView: View {
     @ObservedObject var authViewModel: AuthViewModel
@@ -47,6 +48,7 @@ struct ContentView: View {
                 }
             }
             .task {
+                store.selectedDate = Calendar.app.startOfDay(for: Date())
                 store.configureCloudSync(userID: authViewModel.userID)
                 scheduleNotifications()
             }
@@ -122,9 +124,17 @@ private struct WeekScroller: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
-                Label("Hoy", systemImage: "calendar")
-                    .font(.headline.weight(.bold))
-                    .foregroundStyle(Color.ink)
+                Button {
+                    withAnimation(.spring(response: 0.28, dampingFraction: 0.82)) {
+                        store.selectedDate = Calendar.app.startOfDay(for: Date())
+                    }
+                } label: {
+                    Label("Hoy", systemImage: "calendar")
+                        .font(.headline.weight(.bold))
+                        .foregroundStyle(Color.ink)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Seleccionar hoy")
                 Spacer()
                 Text(todayText)
                     .font(.subheadline.weight(.medium))
@@ -656,6 +666,7 @@ private struct GoalSection: View {
 private struct NotificationSection: View {
     @ObservedObject var store: HydrationStore
     @State private var testNotificationStatus: String?
+    @State private var diagnosticsText: String?
 
     var body: some View {
         SectionContainer(title: "Recordatorios locales", systemImage: "bell.badge") {
@@ -681,10 +692,11 @@ private struct NotificationSection: View {
                     isEnabled: store.notificationSettings.isEnabled
                 )
                 HydrationStepper(
-                    title: "Cada \(store.notificationSettings.intervalHours) h",
+                    title: "Cada \(store.notificationSettings.intervalLabel)",
                     systemImage: "clock",
-                    value: $store.notificationSettings.intervalHours,
-                    range: 1...6,
+                    value: $store.notificationSettings.intervalMinutes,
+                    range: 30...360,
+                    step: 30,
                     isEnabled: store.notificationSettings.isEnabled
                 )
             }
@@ -695,15 +707,20 @@ private struct NotificationSection: View {
 
             Button {
                 Task {
-                    let simulatedDate = await HydrationNotificationScheduler.shared.sendNextReminderNow(
+                    let result = await HydrationNotificationScheduler.shared.sendNextReminderNow(
                         settings: store.notificationSettings,
                         goal: store.goal,
                         todaysIntakeMl: store.intake(for: Date()).totalMl
                     )
-                    if let simulatedDate {
+                    switch result {
+                    case .sent(let simulatedDate):
                         testNotificationStatus = "Enviando ahora la notificación que tocaría a las \(simulatedDate.formatted(date: .omitted, time: .shortened))."
-                    } else {
-                        testNotificationStatus = "No hay una siguiente notificación para simular o falta el permiso."
+                    case .missingPermission:
+                        testNotificationStatus = "No hay permiso de notificaciones. Actívalo en Ajustes de iOS."
+                    case .noUpcomingReminder:
+                        testNotificationStatus = "No hay una siguiente notificación para simular con la configuración actual."
+                    case .failedToSchedule:
+                        testNotificationStatus = "iOS no pudo programar la notificación de prueba."
                     }
                 }
             } label: {
@@ -714,6 +731,23 @@ private struct NotificationSection: View {
 
             if let testNotificationStatus {
                 Text(testNotificationStatus)
+                    .font(.caption)
+                    .foregroundStyle(Color.mutedAqua)
+            }
+
+            Button {
+                Task {
+                    let diagnostics = await HydrationNotificationScheduler.shared.diagnostics()
+                    diagnosticsText = "Permiso: \(diagnostics.authorizationStatus.displayText). Pendientes: \(diagnostics.totalPendingCount) (\(diagnostics.scheduledReminderCount) reales, \(diagnostics.testReminderCount) prueba)."
+                }
+            } label: {
+                Label("Revisar estado de notificaciones", systemImage: "checklist")
+                    .font(.subheadline.weight(.semibold))
+            }
+            .buttonStyle(SecondaryHydrationButtonStyle())
+
+            if let diagnosticsText {
+                Text(diagnosticsText)
                     .font(.caption)
                     .foregroundStyle(Color.mutedAqua)
             }
@@ -772,6 +806,25 @@ private struct AppearanceSection: View {
             "La app usará siempre el tema claro."
         case .dark:
             "La app usará siempre el tema oscuro."
+        }
+    }
+}
+
+private extension UNAuthorizationStatus {
+    var displayText: String {
+        switch self {
+        case .notDetermined:
+            "sin solicitar"
+        case .denied:
+            "denegado"
+        case .authorized:
+            "autorizado"
+        case .provisional:
+            "provisional"
+        case .ephemeral:
+            "temporal"
+        @unknown default:
+            "desconocido"
         }
     }
 }

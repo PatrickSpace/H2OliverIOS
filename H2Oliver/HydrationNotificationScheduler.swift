@@ -7,12 +7,32 @@
 
 import Foundation
 import UserNotifications
-//kmkmkm
+
+enum HydrationNotificationTestResult {
+    case sent(simulatedDate: Date)
+    case missingPermission
+    case noUpcomingReminder
+    case failedToSchedule
+}
+
+struct HydrationNotificationDiagnostics {
+    let authorizationStatus: UNAuthorizationStatus
+    let scheduledReminderCount: Int
+    let testReminderCount: Int
+
+    var totalPendingCount: Int {
+        scheduledReminderCount + testReminderCount
+    }
+}
+
 final class HydrationNotificationScheduler {
     static let shared = HydrationNotificationScheduler()
 
     private let notificationCenter = UNUserNotificationCenter.current()
     private let identifierPrefix = "h2oliver.reminder."
+    private let scheduledIdentifierPrefix = "h2oliver.reminder.scheduled."
+    private let testIdentifierPrefix = "h2oliver.reminder.test."
+    private let maxScheduledReminderCount = 32
 
     private init() {}
 
@@ -51,13 +71,30 @@ final class HydrationNotificationScheduler {
         notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 
+    func diagnostics() async -> HydrationNotificationDiagnostics {
+        let settings = await notificationCenter.notificationSettings()
+        let pendingRequests = await notificationCenter.pendingNotificationRequests()
+        let scheduledReminderCount = pendingRequests.filter {
+            $0.identifier.hasPrefix(scheduledIdentifierPrefix)
+        }.count
+        let testReminderCount = pendingRequests.filter {
+            $0.identifier.hasPrefix(testIdentifierPrefix)
+        }.count
+
+        return HydrationNotificationDiagnostics(
+            authorizationStatus: settings.authorizationStatus,
+            scheduledReminderCount: scheduledReminderCount,
+            testReminderCount: testReminderCount
+        )
+    }
+
     func sendNextReminderNow(
         settings: HydrationNotificationSettings,
         goal: HydrationGoal,
         todaysIntakeMl: Int
-    ) async -> Date? {
+    ) async -> HydrationNotificationTestResult {
         guard await canScheduleNotifications(requestAuthorizationIfNeeded: true) else {
-            return nil
+            return .missingPermission
         }
 
         guard let nextReminder = makeReminderCandidates(
@@ -65,21 +102,23 @@ final class HydrationNotificationScheduler {
             goal: goal,
             todaysIntakeMl: todaysIntakeMl
         ).first else {
-            return nil
+            return .noUpcomingReminder
         }
+
+        await cancelPendingTestReminders()
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(
-            identifier: "\(identifierPrefix)test.\(UUID().uuidString)",
+            identifier: "\(testIdentifierPrefix)\(UUID().uuidString)",
             content: nextReminder.content,
             trigger: trigger
         )
 
         do {
             try await notificationCenter.add(request)
-            return nextReminder.date
+            return .sent(simulatedDate: nextReminder.date)
         } catch {
-            return nil
+            return .failedToSchedule
         }
     }
 
@@ -101,7 +140,9 @@ final class HydrationNotificationScheduler {
         goal: HydrationGoal,
         todaysIntakeMl: Int
     ) -> [UNNotificationRequest] {
-        makeReminderCandidates(settings: settings, goal: goal, todaysIntakeMl: todaysIntakeMl).map(\.request)
+        makeReminderCandidates(settings: settings, goal: goal, todaysIntakeMl: todaysIntakeMl)
+            .prefix(maxScheduledReminderCount)
+            .map(\.request)
     }
 
     private func makeReminderCandidates(
@@ -113,7 +154,7 @@ final class HydrationNotificationScheduler {
         let today = calendar.startOfDay(for: Date())
         let startHour = min(settings.startHour, settings.endHour)
         let endHour = max(settings.startHour, settings.endHour)
-        let interval = max(1, settings.intervalHours)
+        let intervalMinutes = max(1, settings.intervalMinutes)
 
         return (0..<7).flatMap { dayOffset -> [ReminderCandidate] in
             guard let day = calendar.date(byAdding: .day, value: dayOffset, to: today) else {
@@ -124,10 +165,13 @@ final class HydrationNotificationScheduler {
                 return []
             }
 
-            return stride(from: startHour, through: endHour, by: interval).compactMap { hour in
+            let startMinuteOfDay = startHour * 60
+            let endMinuteOfDay = endHour * 60
+
+            return stride(from: startMinuteOfDay, through: endMinuteOfDay, by: intervalMinutes).compactMap { minuteOfDay in
                 var components = calendar.dateComponents([.year, .month, .day], from: day)
-                components.hour = hour
-                components.minute = 0
+                components.hour = minuteOfDay / 60
+                components.minute = minuteOfDay % 60
 
                 guard let fireDate = calendar.date(from: components), fireDate > Date() else {
                     return nil
@@ -139,12 +183,20 @@ final class HydrationNotificationScheduler {
                     dayOffset: dayOffset
                 )
 
-                let identifier = "\(identifierPrefix)\(day.hydrationDayKey).\(hour)"
+                let identifier = "\(scheduledIdentifierPrefix)\(day.hydrationDayKey).\(minuteOfDay)"
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
                 let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
                 return ReminderCandidate(date: fireDate, content: content, request: request)
             }
         }
+    }
+
+    private func cancelPendingTestReminders() async {
+        let pendingRequests = await notificationCenter.pendingNotificationRequests()
+        let identifiers = pendingRequests
+            .map(\.identifier)
+            .filter { $0.hasPrefix(testIdentifierPrefix) }
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
     }
 
     private func makeReminderContent(

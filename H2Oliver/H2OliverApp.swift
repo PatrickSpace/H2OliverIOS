@@ -12,11 +12,11 @@ import UserNotifications
 
 @main
 struct H2OliverApp: App {
-    private let notificationDelegate = HydrationNotificationDelegate()
+    private static let notificationDelegate = HydrationNotificationDelegate()
 
     init() {
         FirebaseApp.configure()
-        UNUserNotificationCenter.current().delegate = notificationDelegate
+        UNUserNotificationCenter.current().delegate = Self.notificationDelegate
     }
 
     var body: some Scene {

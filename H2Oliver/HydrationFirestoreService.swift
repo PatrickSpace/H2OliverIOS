@@ -157,7 +157,8 @@ final class HydrationFirestoreService: HydrationCloudServicing {
             "isEnabled": settings.isEnabled,
             "startHour": settings.startHour,
             "endHour": settings.endHour,
-            "intervalHours": settings.intervalHours
+            "intervalMinutes": settings.intervalMinutes,
+            "intervalHours": max(1, settings.intervalMinutes / 60)
         ]
     }
 
@@ -167,7 +168,9 @@ final class HydrationFirestoreService: HydrationCloudServicing {
             isEnabled: data["isEnabled"] as? Bool ?? false,
             startHour: intValue(data["startHour"]) ?? 9,
             endHour: intValue(data["endHour"]) ?? 21,
-            intervalHours: intValue(data["intervalHours"]) ?? 1
+            intervalMinutes: intValue(data["intervalMinutes"])
+                ?? intValue(data["intervalHours"]).map { max(30, $0 * 60) }
+                ?? 30
         )
     }
 

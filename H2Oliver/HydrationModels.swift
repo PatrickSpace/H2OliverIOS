@@ -130,7 +130,65 @@ struct HydrationNotificationSettings: Codable, Equatable {
     var isEnabled = false
     var startHour = 9
     var endHour = 21
-    var intervalHours = 1
+    var intervalMinutes = 30
+
+    var intervalLabel: String {
+        if intervalMinutes < 60 {
+            return "\(intervalMinutes) min"
+        }
+
+        let hours = intervalMinutes / 60
+        let minutes = intervalMinutes % 60
+        if minutes == 0 {
+            return "\(hours) h"
+        }
+        return "\(hours) h \(minutes) min"
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case isEnabled
+        case startHour
+        case endHour
+        case intervalMinutes
+        case intervalHours
+    }
+
+    init(
+        isEnabled: Bool = false,
+        startHour: Int = 9,
+        endHour: Int = 21,
+        intervalMinutes: Int = 30
+    ) {
+        self.isEnabled = isEnabled
+        self.startHour = startHour
+        self.endHour = endHour
+        self.intervalMinutes = max(30, intervalMinutes)
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        isEnabled = try container.decodeIfPresent(Bool.self, forKey: .isEnabled) ?? false
+        startHour = try container.decodeIfPresent(Int.self, forKey: .startHour) ?? 9
+        endHour = try container.decodeIfPresent(Int.self, forKey: .endHour) ?? 21
+
+        if let intervalMinutes = try container.decodeIfPresent(Int.self, forKey: .intervalMinutes) {
+            self.intervalMinutes = max(30, intervalMinutes)
+        } else {
+            if let intervalHours = try container.decodeIfPresent(Int.self, forKey: .intervalHours) {
+                self.intervalMinutes = max(30, intervalHours * 60)
+            } else {
+                self.intervalMinutes = 30
+            }
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(isEnabled, forKey: .isEnabled)
+        try container.encode(startHour, forKey: .startHour)
+        try container.encode(endHour, forKey: .endHour)
+        try container.encode(intervalMinutes, forKey: .intervalMinutes)
+    }
 }
 
 struct WeekDay: Identifiable, Equatable {
